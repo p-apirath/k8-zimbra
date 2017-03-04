@@ -3,17 +3,17 @@ kind: Pod
 metadata:
   name: zimbra
 spec:
+ hostname: zimbra
+ subdomain: company1
  containers:
     - name: zimbra
       image: roselroa/myzimbra-auto:latest
       ports:
       - containerPort: 443
         protocol: TCP
+      securityContext:
+        privileged: true
       env:
-      - name: EXT_DOMAIN
-        value: k0l0s0s.net
-      - name: EXT_HOST
-        value: zimbra
       - name: PASSWORD
         value: temp1234
  imagePullSecrets:
