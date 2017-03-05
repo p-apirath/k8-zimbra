@@ -1,13 +1,17 @@
 Sample k8s Zimbra POC from Docker containers
 
-Using minikube
+Using minikube, you can replicate the zimbra right away after downloading the YAML's
 
 ```
 $ minikube start
 $ kubectl get node
-AME       STATUS    AGE
+NAME       STATUS    AGE
 minikube   Ready     6d
+$ kubectl create -f myzimbra.yaml
+$ kubectl create -f svc_zimbra.yaml
 ```
+
+if the docker image is behind the private repository
 
 Create a POD using the docker container.
 
@@ -39,12 +43,15 @@ Container: myzimbra-auto
 Tag: latest
 ```
 
-5) Create the POD and verify.
+5) Deploy and verify.
 
 ```
 $ kubectl create -f myzimbra.yaml
-$ kubectl get pod
+$ kubectl create -f svc_zimbra.yaml
+$ kubectl get deployment
+$ kubectl get pods
+NAME                     READY     STATUS    RESTARTS   AGE
+zimbra-842147904-0f4gl   1/1       Running   0          2h
 Monitor the logs if the zimbra server is ready.
-$ kubectl logs <pod name>
+$ kubectl logs zimbra-842147904-0f4gl
 ```
-
