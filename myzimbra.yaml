@@ -1,20 +1,67 @@
 apiVersion: v1
-kind: Pod
-metadata:
-  name: zimbra
-spec:
- hostname: zimbra
- subdomain: company1
- containers:
-    - name: zimbra
-      image: roselroa/myzimbra-auto:latest
-      ports:
-      - containerPort: 443
-        protocol: TCP
-      securityContext:
-        privileged: true
-      env:
-      - name: PASSWORD
-        value: temp1234
- imagePullSecrets:
-    - name: regsecret
+items:
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: 2017-03-05T00:11:34Z
+    generation: 1
+    labels:
+      run: zimbra
+    name: zimbra
+    namespace: default
+    resourceVersion: "234643"
+    selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/zimbra
+    uid: 4ae9632e-0138-11e7-8437-666779b03fbb
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        run: zimbra
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          run: zimbra
+      spec:
+        subdomain: company1
+        containers:
+        - image: docker.io/roselroa/myzimbra-auto:latest
+          imagePullPolicy: Always
+          name: zimbra
+          ports:
+          - containerPort: 443
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          securityContext:
+            privileged: true
+          env:
+          - name: PASSWORD
+            value: temp1234
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: 2017-03-05T00:11:34Z
+      lastUpdateTime: 2017-03-05T00:11:34Z
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    replicas: 1
+    updatedReplicas: 1
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""
