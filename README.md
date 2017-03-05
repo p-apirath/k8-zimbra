@@ -9,7 +9,18 @@ NAME       STATUS    AGE
 minikube   Ready     6d
 $ kubectl create -f myzimbra.yaml
 $ kubectl create -f svc_zimbra.yaml
+$ kubectl get pods
+NAME                     READY     STATUS    RESTARTS   AGE
+zimbra-842147904-0f4gl   1/1       Running   0          2h
+$ kubectl logs zimbra-842147904-0f4gl
+hostname - zimbra-842147904-0f4gl
+domain - company1.default.svc.cluster.local
+fqdn - zimbra-842147904-0f4gl.company1.default.svc.cluster.local
+server IP - 172.17.0.4
+arp - 0.17.172
 ```
+
+Be sure to have the hostname and domain, else the installation will fail.
 
 if the docker image is behind the private repository
 
